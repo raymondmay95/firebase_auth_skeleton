@@ -38,6 +38,12 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 # Purpose
 The purpose in this application is to intergrate Firebase Authentication to render two seperate views based off of a user being autherized or not.
 
+## Guides used in this application
+[Firebase Documentation](https://firebase.google.com/docs/auth/where-to-start)
+[Firebase Documentation (Google)](https://firebase.google.com/docs/auth/web/google-signin)
+[Firebase Documentation (Facebook)](https://firebase.google.com/docs/auth/web/facebook-login)
+[Firebase Documentation (Apple)](https://firebase.google.com/docs/auth/web/apple)
+
 ## User Stories
 - As a user not logged in I should see nothing but a log-in and signup button
 - As a user who is not logged in I should not see these buttons but instead a header element displaying that I have been logged in.
