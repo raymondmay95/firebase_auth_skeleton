@@ -14,11 +14,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `yarn build`
 
 Builds the app for production to the `build` folder.\
@@ -39,8 +34,11 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Purpose
+The purpose in this application is to intergrate Firebase Authentication to render two seperate views based off of a user being autherized or not.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## User Stories
+- As a user not logged in I should see nothing but a log-in and signup button
+- As a user who is not logged in I should not see these buttons but instead a header element displaying that I have been logged in.
+- As a user who is logged in I should see a different log-out button component.
