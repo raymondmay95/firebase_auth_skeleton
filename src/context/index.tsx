@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, Context } from 'react'
 import { useEffect } from 'react'
-import { auth, googleAuthProvider } from "../config/firebase"
+import { auth } from '../config/firebase'
+import { googleAuthProvider, facebookAuthProvider } from "../config/providers"
 
 const AuthContext: Context<any> = createContext({})
 
@@ -12,18 +13,31 @@ const AuthProvider: React.FC = ({ children }) => {
    const value = {
       currentUser,
       signUpWithEmailPassword,
+      signInWithEmailPassword,
       signInWithGoogle,
+      signInWithFacebook,
       signOut
-   }
-
-   function signInWithGoogle() {
-      auth.signInWithPopup(googleAuthProvider)
    }
 
    function signOut() {
       return auth.signOut()
    }
+   // ------------- Signing in with Auth providers **Start** ------------
+   function signInWithGoogle() {
+      return auth.signInWithPopup(googleAuthProvider)
+   }
+   function signInWithFacebook() {
+      return auth.signInWithPopup(facebookAuthProvider)
+   }
+   // TODO: creat logic for apple signin
+   // function signInWithApple() {}
+   // ------------- Signing in with Auth providers **End** ------------
 
+
+   // Email and Password Only ---- handled by login and sign up forms; from with our app
+   function signInWithEmailPassword(email:string,password: string) {
+      return auth.signInWithEmailAndPassword(email, password)
+   }
    function signUpWithEmailPassword(email: string, password: string): Promise<any>{
       return auth.createUserWithEmailAndPassword(email, password)
    }
