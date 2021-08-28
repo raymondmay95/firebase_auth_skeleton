@@ -4,6 +4,23 @@ import LoginForm from './components/login';
 import SignUp from './components/signup';
 import { useAuth } from './context';
 
+const LoggedOutNavigation: React.FC = () => {
+  return (
+    <>
+      <div style={{width: "100%"}}>
+        <ul style={{listStyleType:"none", display: "flex", justifyContent: "space-around"}}>
+          <li key="loggedOut_Login-navbar">
+            <NavLink to="/login">Login</NavLink>
+          </li>
+          <li key="loggedOut_SignUp-navbar">
+            <NavLink to="/signup">Sign Up</NavLink>
+          </li>
+        </ul>
+      </div>
+    </>
+  )
+}
+
 const App: React.FC = () => {
   const {signOut, currentUser} = useAuth()
   return (
@@ -21,7 +38,7 @@ const App: React.FC = () => {
               {currentUser ?
               <button type="button" onClick={signOut}>Sign Out</button>
               :
-              <NavLink to="/login">Login</NavLink>
+              <LoggedOutNavigation />
               }
             </div>
           </Route>
