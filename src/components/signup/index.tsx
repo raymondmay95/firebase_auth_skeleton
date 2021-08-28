@@ -1,20 +1,33 @@
-import React, {FC, useState} from "react";
+import React, { FC, useState} from "react";
 import { useAuth } from "../../context";
 import { useHistory } from "react-router";
+
 const SignUp: FC = () => {
    const history = useHistory()
    const {signUpWithEmailPassword} = useAuth()
+   const [errors, setErrors] = useState<Array<{code:string, message:string}>>([])
+   const [buttonStatus_disabled, setButtonStatus_disabled] = useState<boolean>(false)
    const [credentials, setCredentials] = useState({
       email: "",
       password: ""
    })
-   const handleSubmit = (event:React.FormEvent) => {
+
+   const handleSubmit = async (event:React.FormEvent) => {
       event.preventDefault()
+      setButtonStatus_disabled(true)
       const {email, password} = credentials
       if (email !== "" && password !== "") {
-         signUpWithEmailPassword(email, password)
+         try {
+            await signUpWithEmailPassword(email, password)
+            history.push("/home")
+         } catch(error) {
+            // console.log(error) // To console log salesforce errors and validation
+            setErrors([error])
+         }
       }
-      history.push("/home")
+
+      if (errors) {console.log(errors)}
+      setButtonStatus_disabled(false)
    }
 
    const handleChange = (event: any): void => {
@@ -25,16 +38,24 @@ const SignUp: FC = () => {
          }
       })
    }
+
    return (
       <>
          <div style={{display: 'flex', justifyContent: "center", alignItems: "center", height: "100vh", width: "100vw", flexDirection: "column"}}>
+            {errors && (
+            <div>
+               <ul style={{listStyleType: "none"}}>
+                  {errors.map(({message}) => <li>{message}</li>)}
+               </ul>
+            </div>
+            )}
             <div>
                <form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column", alignItems: "center", lineHeight: "150%"}}>
                   <label htmlFor="email">Email</label>
                   <input name="email" type="email" value={credentials.email} onChange={handleChange} required />
                   <label htmlFor="password">Password</label>
-                  <input name="password" type="password" value={credentials.password} onChange={handleChange} required />
-                  <button type="submit" style={{width:"100%"}}>Submit</button>
+                  <input name="password" type="password" value={credentials.password} onChange={handleChange} minLength={6} required />
+                  <button disabled={buttonStatus_disabled} type="submit" style={{width:"100%"}}>Submit</button>
                </form>
             </div>
             <div>

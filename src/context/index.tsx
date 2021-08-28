@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, Context } from 'react'
 import { useEffect } from 'react'
-import { auth } from "../config/firebase"
+import { auth, googleAuthProvider } from "../config/firebase"
 
 const AuthContext: Context<any> = createContext({})
 
@@ -11,7 +11,17 @@ const AuthProvider: React.FC = ({ children }) => {
 
    const value = {
       currentUser,
-      signUpWithEmailPassword
+      signUpWithEmailPassword,
+      signInWithGoogle,
+      signOut
+   }
+
+   function signInWithGoogle() {
+      auth.signInWithPopup(googleAuthProvider)
+   }
+
+   function signOut() {
+      return auth.signOut()
    }
 
    function signUpWithEmailPassword(email: string, password: string): Promise<any>{
