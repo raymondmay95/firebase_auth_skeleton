@@ -1,25 +1,9 @@
 import React from 'react';
-import {BrowserRouter as Router, NavLink, Route, Switch} from "react-router-dom"
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
 import LoginForm from './components/login';
 import SignUp from './components/signup';
 import { useAuth } from './context';
-
-const LoggedOutNavigation: React.FC = () => {
-  return (
-    <>
-      <div style={{width: "100%"}}>
-        <ul style={{listStyleType:"none", display: "flex", justifyContent: "space-around"}}>
-          <li key="loggedOut_Login-navbar">
-            <NavLink to="/login">Login</NavLink>
-          </li>
-          <li key="loggedOut_SignUp-navbar">
-            <NavLink to="/signup">Sign Up</NavLink>
-          </li>
-        </ul>
-      </div>
-    </>
-  )
-}
+import LoggedOutNavigation from './components/navigation/Logged_Out_Navigation';
 
 const App: React.FC = () => {
   const {signOut, currentUser} = useAuth()
