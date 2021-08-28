@@ -7,6 +7,8 @@ const LoginForm: FC = () => {
    // const { /* Destructored providers from auth object */} = useAuth()
    const [email, setEmail] = useState<string>("")
    const [password, setPassword] = useState<string>("")
+   const [errors, setErrors] = useState<any>()
+   const [disableButton, setDisableButton] = useState<boolean>(false)
 
    // if a user exist they should not be on this page.
    if (currentUser) {
@@ -23,18 +25,27 @@ const LoginForm: FC = () => {
    }
    const handleSubmit: React.FormEventHandler = async (event) => {
       event.preventDefault()
-      await signInWithEmailPassword(email, password)
+      setDisableButton(true)
+      try {
+         await signInWithEmailPassword(email, password)
+      } catch (error) {
+         setErrors(error)
+      }
+      setDisableButton(false)
    }
    return (
    <>
       <div style={{display: 'flex', justifyContent: "center", alignItems: "center", height: "100vh", width: "100vw", flexDirection: "column"}}>
+         <div>
+            {errors ? errors.message : null}
+         </div>
          <div>
             <form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column", alignItems: "center", lineHeight: "150%"}}>
                <label htmlFor="email">Email</label>
                <input name="email" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} required />
                <label htmlFor="password">Password</label>
                <input name="password" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} minLength={6} required />
-               <button type="submit" style={{width:"100%"}}>Submit</button>
+               <button type="submit" disabled={disableButton} style={{width:"100%"}}>Submit</button>
             </form>
          </div>
          <div>
