@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons"
 import ConfirmPasswordFeild from "./confirmPassword";
 import {FormErrors} from "../../errors/index";
-import { useEffect } from "react";
 
 const LoginSignUpForm: React.FC = () => {
    const {pathname} = useLocation()
@@ -17,14 +16,6 @@ const LoginSignUpForm: React.FC = () => {
    const {signInWithEmailPassword, signUpWithEmailPassword } = useAuth()
    const [disableButton, setDisableButton] = useState<boolean>(false)
    const [errors, setErrors] = useState<any[]>([])
-
-   useEffect(()=>{
-      if ((credentials.password !== credentials.password_confirm || !credentials.email.includes("@")) && pathname === "/signup") {
-         setDisableButton(true)
-      } else {
-         setDisableButton(false)
-      }
-   }, [credentials.password, credentials.password_confirm, credentials.email, pathname])
 
    const handleSubmit: React.FormEventHandler = async (event: SyntheticEvent) => {
       event.preventDefault()
@@ -57,14 +48,12 @@ const LoginSignUpForm: React.FC = () => {
             setErrors((prev)=>[error])
          }
       }
-      return ()=>{
-         setDisableButton(false)
-         setErrors([])
-      }
    }
 
    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+      setDisableButton(false)
       const targetCredential = event.target.name
+      console.log(credentials.password)
       // We are resetting the errors here when inputs change!!!
       setErrors([])
       setCredentials((prevCredentials)=> {
