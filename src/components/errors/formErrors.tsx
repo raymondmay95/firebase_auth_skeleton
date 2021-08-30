@@ -9,9 +9,9 @@ const FormErrors: React.FC<any> = ({errors}) => {
             <label>Theres seems to have been a problem?</label>
             <ul style={{listStyleType: "none"}}>
                {errors.map((error: {message:string,code:string}) => {
-                  if (error.message) {
-                     const {message} = error
-                     return <li>{message}</li>
+                  if (error.message && error.code) {
+                     const {message, code} = error
+                     return <li key={code}>{message}</li>
                   }
                   return null
                })}

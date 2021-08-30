@@ -4,7 +4,7 @@ import app from '../config/firebase';
 import { useAuth } from '../context';
 import LoginForm from '../components/login';
 
-const ProtectedRoute: React.FC<React.PropsWithChildren<any>> = ({path, children}) => {
+const ProtectedRoute: React.FC<React.PropsWithChildren<{path:string, children: React.ReactNode}>> = ({path, children}) => {
   const {pathname} = useLocation()
   const {currentUser} = useAuth()
   const authenticated = currentUser ? true : false
