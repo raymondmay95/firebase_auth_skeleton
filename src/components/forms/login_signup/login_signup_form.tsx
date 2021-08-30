@@ -1,13 +1,13 @@
-import React, {SyntheticEvent, useState} from "react";
+import React, { SyntheticEvent, useState} from "react";
 import { useLocation } from "react-router";
-import { useAuth } from "../../context";
+import { useAuth } from "../../../context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons"
 import { useEffect } from "react";
-import ConfirmPasswordFeild from "../forms/confirmPassword";
+import ConfirmPasswordFeild from "./confirmPassword";
+import {FormErrors} from "../../errors/index";
 
-
-const Form: React.FC = () => {
+const LoginSignUpForm: React.FC = () => {
    const {pathname} = useLocation()
    const [credentials, setCredentials] = useState({
       email: "",
@@ -17,6 +17,7 @@ const Form: React.FC = () => {
    const {signInWithEmailPassword, signUpWithEmailPassword } = useAuth()
    const [disableButton, setDisableButton] = useState<boolean>(false)
    const [disableConfirm, setDisableConfirm] = useState<boolean>(false)
+   const [errors, setErrors] = useState<any[]>([])
 
    useEffect(()=>{
       if (pathname === "/login") {
@@ -37,14 +38,18 @@ const Form: React.FC = () => {
                password: "",
                password_confirm: ""
             })
+            setErrors([])
          } catch (error) {
             console.log(error)
+            setErrors((prev)=>[error])
          }
       } else {
          try {
             await signUpWithEmailPassword(credentials.email, credentials.password)
+            setErrors([])
          } catch (error) {
             console.log(error)
+            setErrors((prev)=>[error])
          }
       }
       return setDisableButton(false)
@@ -52,13 +57,17 @@ const Form: React.FC = () => {
 
    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
       const targetCredential = event.target.name
+      // We are resetting the errors here when inputs change!!!
+      setErrors([])
       setCredentials((prevCredentials)=> {
          const newState = {...prevCredentials, [targetCredential]: event.target.value}
          return newState
       })
    }
+
    return (
       <>
+         <FormErrors errors={errors} />
          <div>
             <form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column", alignItems: "center", lineHeight: "150%"}}>
                <label htmlFor="email">Email</label>
@@ -76,4 +85,4 @@ const Form: React.FC = () => {
    )
 }
 
-export default Form
+export default LoginSignUpForm
